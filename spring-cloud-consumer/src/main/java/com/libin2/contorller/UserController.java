@@ -16,10 +16,17 @@ public class UserController {
     @Autowired
     private RestTemplate restTemplate;
 
+
+    /**
+     * 硬编码调用
+     * @param id
+     * @return
+     */
     @GetMapping("/simple/{id}")
     public UserDTO findUser(@PathVariable Integer id) {
         UserDTO userDTO = restTemplate.getForObject("http://localhost:8080/simple/" + id, UserDTO.class);
         return userDTO;
     }
+
 
 }

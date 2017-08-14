@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private EurekaClient eurekaClient;
+
     @GetMapping("/simple/{id}")
     public UserDTO findUser(@PathVariable Integer id) {
         UserDTO userDTO = new UserDTO();
@@ -24,17 +30,11 @@ public class UserController {
         return userDTO;
     }
 
-    @Autowired
-    private EurekaClient eurekaClient;
-
     @GetMapping("/eureka-instance")
     public String serviceUrl() {
         InstanceInfo instance = eurekaClient.getNextServerFromEureka("APPNAME-LIBIN", false);
         return instance.getHomePageUrl();
     }
-
-    @Autowired
-    private DiscoveryClient discoveryClient;
 
     @GetMapping("/eureka-info")
     public ServiceInstance info() {
