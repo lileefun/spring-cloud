@@ -2,6 +2,8 @@ package com.libin.controller;
 
 import com.libin.model.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +18,10 @@ public class UserController {
     @Autowired
     private RestTemplate restTemplate;
 
-
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
     /**
-     * 硬编码调用
+     * ribbon 调用
      * @param id
      * @return
      */
@@ -28,5 +31,11 @@ public class UserController {
         return userDTO;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        ServiceInstance choose = loadBalancerClient.choose("appname-libin");
+        System.out.println(choose.getHost() + " " + choose.getServiceId());
+        return "1";
+    }
 
 }

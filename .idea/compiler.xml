@@ -24,6 +24,7 @@
         <processorPath useClasspath="true" />
         <module name="spring-cloud-consumer" />
         <module name="spring-cloud-eureka" />
+        <module name="spring-cloud-feign" />
         <module name="spring-cloud-provider" />
         <module name="spring-cloud-ribbon" />
       </profile>
@@ -32,6 +33,7 @@
       <module name="spring-cloud" target="1.8" />
       <module name="spring-cloud-consumer" target="1.8" />
       <module name="spring-cloud-eureka" target="1.8" />
+      <module name="spring-cloud-feign" target="1.8" />
       <module name="spring-cloud-provider" target="1.8" />
       <module name="spring-cloud-ribbon" target="1.8" />
     </bytecodeTargetLevel>
