@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Created by libin on 2017/8/18.
+ *  启动类
+ * 如有问题联系我 li.leefun@gmail.com
  */
 
 @SpringBootApplication
