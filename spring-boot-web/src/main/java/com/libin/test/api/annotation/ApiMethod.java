@@ -1,5 +1,7 @@
 package com.libin.test.api.annotation;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -30,6 +32,27 @@ public @interface ApiMethod {
         }
         public int getAuthType() {
             return this.authType;
+        }
+    }
+
+    public RequestMethod method() default RequestMethod.ALL;
+
+    public enum RequestMethod {
+
+        ALL("all"), GET("get"), POST("post"), UPDATE("update"), DELETE("delete");
+
+        private String methodType;
+
+        private RequestMethod(String methodType) {
+            this.methodType = methodType;
+        }
+
+        public String getMethodType() {
+            return this.methodType;
+        }
+
+        public boolean equals(String method) {
+            return StringUtils.equalsIgnoreCase(method, methodType);
         }
     }
 

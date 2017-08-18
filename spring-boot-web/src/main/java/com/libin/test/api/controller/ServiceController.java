@@ -42,10 +42,10 @@ public class ServiceController {
 
     @RequestMapping(value = "/*")
     public ModelAndView apiMethodService(HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("@@@@@@@@@@@@");
         AcpResponse acpResult = new AcpResponse(request, response);
         try {
-            ApiMethodMapping apiMethodMapping = apiMethodService.lookupApiMethodCommand(request.getParameter(HttpConstants.PARAM_CMD_METHOD), request.getParameter(HttpConstants.PARAM_CMD_SERVICE));
+
+            ApiMethodMapping apiMethodMapping = apiMethodService.lookupApiMethodCommand(request.getMethod(),request.getParameter(HttpConstants.PARAM_CMD_METHOD), request.getParameter(HttpConstants.PARAM_CMD_SERVICE));
 
             if (apiMethodMapping == null) {
                 acpResult.write(new ServiceResult(ErrorCode.E_SYS_UNKNOWN_METHOD));

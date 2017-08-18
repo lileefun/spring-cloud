@@ -14,9 +14,8 @@ public class TestCommand {
 
     Logger logger = LoggerFactory.getLogger(TestCommand.class);
 
-    @ApiMethod(value = "filedownload")
+    @ApiMethod(value = "filedownload",method = ApiMethod.RequestMethod.POST)
     public String filedownload() {
-
        return "";
     }
 

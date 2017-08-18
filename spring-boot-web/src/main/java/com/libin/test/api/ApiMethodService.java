@@ -100,7 +100,7 @@ public class ApiMethodService  implements InitializingBean, ApplicationContextAw
                             ApiMethodMapping apiMethodMappingTmp = apiMethodMap.get(apiMethodMapping.getMethodKey());
                             apiMethodMapping.setAuth(apiMethod.auth());
                             if (apiMethodMappingTmp == null) {
-                                apiMethodMap.put(apiMethodMapping.getMethodKey(), apiMethodMapping);
+                                apiMethodMap.put(apiMethod.method()+"_"+apiMethodMapping.getMethodKey(), apiMethodMapping);
                             } else {
                                 throw new IllegalStateException("重复设置方法 key ：" + apiMethodMapping.getMethodKey());
                             }
@@ -117,10 +117,23 @@ public class ApiMethodService  implements InitializingBean, ApplicationContextAw
         return true;
     }
 
-    public ApiMethodMapping lookupApiMethodCommand(String methodKey, String serviceKey) {
+    public ApiMethodMapping lookupApiMethodCommand(String requestMethod,String methodKey, String serviceKey) {
+        ApiMethod.RequestMethod requestMethodValue = ApiMethod.RequestMethod.ALL;
+        if (ApiMethod.RequestMethod.GET.equals(requestMethod.toLowerCase())) {
+            requestMethodValue = ApiMethod.RequestMethod.GET;
+        } else if (ApiMethod.RequestMethod.POST.equals(requestMethod.toLowerCase())) {
+            requestMethodValue = ApiMethod.RequestMethod.POST;
+        } else if (ApiMethod.RequestMethod.UPDATE.equals(requestMethod.toLowerCase())) {
+            requestMethodValue = ApiMethod.RequestMethod.UPDATE;
+        } else if (ApiMethod.RequestMethod.DELETE.equals(requestMethod.toLowerCase())) {
+            requestMethodValue = ApiMethod.RequestMethod.DELETE;
+        }
         Map<String, ApiMethodMapping> methodMap = apiServiceMap.get(serviceKey);
         if (methodMap != null) {
-            ApiMethodMapping apiMethodMapping = methodMap.get(methodKey);
+            ApiMethodMapping apiMethodMapping = methodMap.get(requestMethodValue+"_"+methodKey);
+            if (apiMethodMapping == null) {
+                apiMethodMapping = methodMap.get(ApiMethod.RequestMethod.ALL+"_"+methodKey);
+            }
             return apiMethodMapping;
         }
         return null;
