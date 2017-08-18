@@ -1,0 +1,6 @@
+server:
+  port: 7000
+
+logging:
+  file: d:\\logs\\stdout.log
+  level:  DEBUG

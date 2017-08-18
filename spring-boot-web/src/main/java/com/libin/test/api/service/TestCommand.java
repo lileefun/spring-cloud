@@ -18,6 +18,7 @@ public class TestCommand {
 
     @ApiMethod(value = "filedownload",method = ApiMethod.RequestMethod.POST)
     public ServiceResult filedownload() {
+        logger.info("aaaaaaaaaaaaaaaaaaaaa");
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setData("1234");
         return new ServiceResult(resultDTO);
