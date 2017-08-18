@@ -15,6 +15,7 @@
         <module>spring-cloud-eureka</module>
         <module>spring-cloud-ribbon</module>
         <module>spring-cloud-feign</module>
+        <module>spring-boot-web</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -44,6 +45,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.16.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
         </dependency>
     </dependencies>
 
