@@ -16,6 +16,7 @@ public class TestCommand {
 
     @ApiMethod(value = "filedownload")
     public String filedownload() {
+
        return "";
     }
 
