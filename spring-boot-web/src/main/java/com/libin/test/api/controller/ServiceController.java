@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +40,7 @@ public class ServiceController {
     private ApiMethodService apiMethodService;
 
     @RequestMapping(value = "/*")
-    public ModelAndView apiMethodService(HttpServletRequest request, HttpServletResponse response) {
+    public ServiceResult apiMethodService(HttpServletRequest request, HttpServletResponse response) {
         AcpResponse acpResult = new AcpResponse(request, response);
         try {
 
@@ -61,8 +60,8 @@ public class ServiceController {
 
             ServiceResult serviceResult = apiMethodService.executeMethod(apiMethodMapping, request, response);
 
-
-            acpResult.write(serviceResult);
+            return serviceResult;
+           // acpResult.write(serviceResult);
 
 
         } catch (ACPIllegalArgumentException e) {
