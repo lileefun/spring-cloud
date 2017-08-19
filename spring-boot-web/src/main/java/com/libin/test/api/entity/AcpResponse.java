@@ -37,7 +37,7 @@ public class AcpResponse {
         this(request, response, false);
     }
 
-    public void writeByte(String fileName, byte[] b) {
+    public void writeByte(String fileName, byte[] bytes) {
         OutputStream os = null;
         try {
             if (StringUtils.isNotBlank(fileName)) {
@@ -51,7 +51,7 @@ public class AcpResponse {
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
             }
             os = response.getOutputStream();
-            os.write(b);
+            os.write(bytes);
             os.flush();
         } catch (IOException e) {
             logger.warn("Response.write", e);
@@ -65,6 +65,7 @@ public class AcpResponse {
             }
         }
     }
+
 
     public void write(ServiceResult serviceResult) {
         if (serviceResult == null) {
