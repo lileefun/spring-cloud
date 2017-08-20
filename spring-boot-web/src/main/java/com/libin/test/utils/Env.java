@@ -1,7 +1,7 @@
 package com.libin.test.utils;
 
 public class Env {
-    private static String env = System.getProperty("owhat_env");
+    private static String env = System.getProperty("env");
 
     public Env() {
     }
