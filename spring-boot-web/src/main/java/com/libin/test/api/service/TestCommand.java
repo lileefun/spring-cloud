@@ -38,7 +38,7 @@ public class TestCommand {
 
     @ApiMethod(value = "testcity",method = ApiMethod.RequestMethod.POST)
     public ServiceResult testcity() {
-        logger.info("aaaaaaaa222aaaaaaaaaaaaa");
+        logger.info("test222");
         List<City> cities = cityService.loadCitys();
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setData(cities);
