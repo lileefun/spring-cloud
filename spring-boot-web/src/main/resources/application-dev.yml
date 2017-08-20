@@ -5,6 +5,7 @@ logging:
   file: d:\\logs\\stdout.log
   level:  DEBUG
 
+
 debug: true
 
 

@@ -1,5 +1,6 @@
 package com.libin.test.service;
 
+import com.github.pagehelper.PageHelper;
 import com.libin.test.service.dao.mapper.CityMapper;
 import com.libin.test.service.dao.model.City;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class CityService {
     private CityMapper cityMapper;
 
     public List<City> loadCitys() {
+        PageHelper.startPage(1, 1);
         List<City> city = cityMapper.getCity();
         return city;
     }

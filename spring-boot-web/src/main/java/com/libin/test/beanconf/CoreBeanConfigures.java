@@ -15,7 +15,7 @@ import org.springframework.http.converter.HttpMessageConverter;
  */
 @Configuration
 @MapperScan("com.libin.test.service.dao.mapper")
-public class BeanConfigures {
+public class CoreBeanConfigures {
 
     @Bean
     public ApiMethodService getApiMethodService() {
