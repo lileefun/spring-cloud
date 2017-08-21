@@ -11,6 +11,7 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 
@@ -24,6 +25,10 @@ public class TestCommand {
 
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private JedisPool jedisPoolA;
+
 
     @ApiMethod(value = "test",method = ApiMethod.RequestMethod.POST)
     public ServiceResult filedownload() {
@@ -42,6 +47,7 @@ public class TestCommand {
         List<City> cities = cityService.loadCitys();
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setData(cities);
+        System.out.println(jedisPoolA);
         return new ServiceResult(resultDTO);
     }
 
