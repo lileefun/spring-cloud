@@ -11,7 +11,7 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisCluster;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class TestCommand {
     private CityService cityService;
 
     @Autowired
-    private JedisPool jedisPoolA;
+    private JedisCluster jedisCluster;
 
 
     @ApiMethod(value = "test",method = ApiMethod.RequestMethod.POST)
@@ -47,7 +47,8 @@ public class TestCommand {
         List<City> cities = cityService.loadCitys();
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setData(cities);
-        System.out.println(jedisPoolA);
+        String s = jedisCluster.get("business:user:login:token:1e11a0494307d4091151becded0dc966");
+        logger.info(s);
         return new ServiceResult(resultDTO);
     }
 

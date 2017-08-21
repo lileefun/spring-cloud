@@ -1,0 +1,13 @@
+#单节点方式
+redis:
+  ips: 118.178.194.6:8001,118.178.194.6:8002,118.178.194.6:8003,118.178.194.6:8004,118.178.194.6:8005,118.178.194.6:8006
+  maxredirections: 0
+  timeout: 5000
+  pool:
+    maxTotal: 300
+    maxIdle: 20
+    minIdle: 5
+    maxWait: 1000
+    testOnBorrow: false
+    testWhileIdle: true
+
