@@ -1,12 +1,12 @@
 #单节点方式
 redis:
-  ips: 118.178.194.6:8001,118.178.194.6:8002,118.178.194.6:8003,118.178.194.6:8004,118.178.194.6:8005,118.178.194.6:8006
-  maxredirections: 0
+  ips: 10.27.63.227:8001,10.27.63.227:8002,10.27.63.227:8003,10.27.63.227:8004,10.27.63.227:8005,10.27.63.227:8006
+  maxredirections: 1
   timeout: 5000
   pool:
-    maxTotal: 300
-    maxIdle: 20
-    minIdle: 5
+    maxTotal: 10
+    maxIdle: 10
+    minIdle: 10
     maxWait: 1000
     testOnBorrow: false
     testWhileIdle: true

@@ -1,6 +1,7 @@
 package com.libin.test.beanconf;
 
 import com.github.pagehelper.PageHelper;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,6 +12,7 @@ import java.util.Properties;
  */
 
 @Configuration
+@MapperScan("com.libin.test.service.dao.mapper")
 public class MybatisConfiguration {
 
     @Bean

@@ -14,7 +14,6 @@ import org.springframework.http.converter.HttpMessageConverter;
  * Created by libin on 2017/8/18.
  */
 @Configuration
-@MapperScan("com.libin.test.service.dao.mapper")
 public class CoreBeanConfigures {
 
     @Bean

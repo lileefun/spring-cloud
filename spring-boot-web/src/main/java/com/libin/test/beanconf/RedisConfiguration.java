@@ -11,7 +11,7 @@ import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -53,25 +53,21 @@ public class RedisConfiguration {
 
     @Value("${testWhileIdle}")
     private Boolean testWhileIdle;
-
-
-
-
     @Bean
     public JedisPoolConfig getRedisConfig(){
         JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxTotal(maxTotal);
         config.setMaxIdle(maxIdle);
         config.setMinIdle(minIdle);
         config.setMaxWaitMillis(maxWait);
         config.setTestOnBorrow(testOnBorrow);
         config.setTestWhileIdle(testWhileIdle);
-
         return config;
     }
 
     @Bean
-    public JedisCluster getJedisPool(){
-        Set<HostAndPort> list = new HashSet<>();
+    public JedisCluster getJedisCluster(){
+        Set<HostAndPort> list = new LinkedHashSet<>();
         JedisPoolConfig config = getRedisConfig();
         String[] split = ips.split(",");
         for (String ip : split) {
@@ -79,8 +75,8 @@ public class RedisConfiguration {
             HostAndPort hostAndPort = new HostAndPort(split1[0],Integer.parseInt(split1[1]));
             list.add(hostAndPort);
         }
-        JedisCluster jedisCluster = new JedisCluster(list,timeout,maxredirections,getRedisConfig());
-        logger.info("init JredisPool ...");
+        JedisCluster jedisCluster = new JedisCluster(list,timeout,maxredirections,config);
+        logger.info("init JedisCluster ...");
         return jedisCluster;
     }
 
