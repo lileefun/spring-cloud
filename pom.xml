@@ -16,6 +16,8 @@
         <module>spring-cloud-ribbon</module>
         <module>spring-cloud-feign</module>
         <module>spring-boot-web</module>
+        <module>spring-cloud-feignext</module>
+        <module>spring-dubbo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
