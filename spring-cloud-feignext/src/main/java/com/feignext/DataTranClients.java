@@ -11,5 +11,10 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 @Import(DataTranRegistrar.class)
-public @interface DataTran {
+public @interface DataTranClients {
+
+    String[] value() default {};
+
+    String[] basePackages() default {};
+
 }

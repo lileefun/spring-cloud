@@ -3,7 +3,9 @@ package com.feignext;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -23,6 +25,7 @@ import java.util.Set;
 
 /**
  * Created by libin on 2017/9/7.
+ * 初始化配置 存入服务的提供者
  */
 public class DataTranRegistrar implements ImportBeanDefinitionRegistrar,ResourceLoaderAware,BeanClassLoaderAware,EnvironmentAware {
 
@@ -37,9 +40,9 @@ public class DataTranRegistrar implements ImportBeanDefinitionRegistrar,Resource
         scanner.setResourceLoader(this.resourceLoader);
         Set<String> basePackages = new HashSet<>();
 
-        Map<String, Object> attrs = importingClassMetadata.getAnnotationAttributes(DataTran.class.getName());
+        Map<String, Object> attrs = importingClassMetadata.getAnnotationAttributes(DataTranClients.class.getName());
         AnnotationTypeFilter annotationTypeFilter = new AnnotationTypeFilter(DataClient.class);
-        final Class<?>[] clients = attrs == null ? null :(Class<?>[]) attrs.get("clients");
+        scanner.addIncludeFilter(annotationTypeFilter);
         basePackages = getBasePackages(importingClassMetadata);
 
 
@@ -52,11 +55,24 @@ public class DataTranRegistrar implements ImportBeanDefinitionRegistrar,Resource
                     AnnotatedBeanDefinition beanDefinition = (AnnotatedBeanDefinition) candidateComponent;
                     AnnotationMetadata annotationMetadata = beanDefinition.getMetadata();
                     Assert.isTrue(annotationMetadata.isInterface(),
-                            "@FeignClient can only be specified on an interface");
+                            "@DataClient can only be specified on an interface");
 
                     Map<String, Object> attributes = annotationMetadata
                             .getAnnotationAttributes(
                                     DataClient.class.getCanonicalName());
+
+                    //初始化解析配置的DataClient 接口将数据保存到map中.
+                    String ref  = (String)attributes.get("ref");
+                    RuntimeBeanReference reference = new RuntimeBeanReference(ref);
+
+
+                    //注册到spring中
+                    RootBeanDefinition dataTranBeanDefinition = new RootBeanDefinition();
+                    dataTranBeanDefinition.setBeanClass(BeanClass.class);
+                    dataTranBeanDefinition.setLazyInit(false);
+                    dataTranBeanDefinition.getPropertyValues().addPropertyValue("ref",reference);
+                    dataTranBeanDefinition.getPropertyValues().addPropertyValue("serviceName",basePackage+"."+candidateComponent.getBeanClassName());
+                    registry.registerBeanDefinition(basePackage+"."+candidateComponent.getBeanClassName(),dataTranBeanDefinition);
 
                 }
             }
@@ -65,7 +81,7 @@ public class DataTranRegistrar implements ImportBeanDefinitionRegistrar,Resource
 
     protected Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
         Map<String, Object> attributes = importingClassMetadata
-                .getAnnotationAttributes(DataTran.class.getCanonicalName());
+                .getAnnotationAttributes(DataTranClients.class.getCanonicalName());
 
         Set<String> basePackages = new HashSet<>();
         for (String pkg : (String[]) attributes.get("value")) {
@@ -77,9 +93,6 @@ public class DataTranRegistrar implements ImportBeanDefinitionRegistrar,Resource
             if (StringUtils.hasText(pkg)) {
                 basePackages.add(pkg);
             }
-        }
-        for (Class<?> clazz : (Class[]) attributes.get("basePackageClasses")) {
-            basePackages.add(ClassUtils.getPackageName(clazz));
         }
 
         if (basePackages.isEmpty()) {
