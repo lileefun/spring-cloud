@@ -21,5 +21,10 @@ public @interface  DataClient {
 
     String ref();
 
+    /**
+     * spring bean id
+     * @return
+     */
+    String beanid();
 
 }
