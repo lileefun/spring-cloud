@@ -7,8 +7,10 @@ import org.springframework.beans.factory.FactoryBean;
 /**
  * Created by libin on 2017/9/20.
  */
-class BeanDefinitionTest implements FactoryBean {
+public class BeanDefinitionTest implements FactoryBean {
 
+
+    private Class<?> interfaceClass;
 
     public Object getObject() throws Exception {
         //从rest获取
@@ -21,7 +23,7 @@ class BeanDefinitionTest implements FactoryBean {
 
 
     public Class<?> getObjectType() {
-        return null;
+        return interfaceClass;
     }
 
     public boolean isSingleton() {
