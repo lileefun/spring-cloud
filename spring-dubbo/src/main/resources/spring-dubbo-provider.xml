@@ -12,6 +12,6 @@
     <dubbo:protocol name="dubbo" port="28080" threadpool="fixed" threads="1000"/>
     <dubbo:provider retries="0" timeout="6000000"/>
 
-    <dubbo:service register="0" timeout="6000000" interface="com.libin.service2.TestService" ref="testServiceImpl"/>
+    <dubbo:service retries="0" timeout="6000000" interface="com.libin.service2.TestService" ref="testServiceImpl"/>
 
 </beans>
