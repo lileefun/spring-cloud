@@ -1,15 +1,11 @@
 package com.libin2;
 
-import com.feignext.DataTranClients;
+import com.feignext.consumer.annotation.ConsumerDataTranClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableDiscoveryClient
-@DataTranClients(basePackages = {"com.feignext.demo"})
-@EnableFeignClients
+@ConsumerDataTranClients(basePackages = {"com.feignext.demo"})
 public class SpringTranDataApplication {
 
 	public static void main(String[] args) {
