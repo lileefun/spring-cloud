@@ -64,6 +64,7 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
                     Map<String, Object> attributes = annotationMetadata
                             .getAnnotationAttributes(
                                     DataClient.class.getCanonicalName());
+                    String className = annotationMetadata.getClassName();
 
                     String beanid = (String)attributes.get("beanid");
                     String beanclass = beanDefinition.getBeanClassName();
@@ -75,7 +76,6 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
                     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(BeanDefinitionTest.class);
                     AbstractBeanDefinition rawBeanDefinition = beanDefinitionBuilder.getRawBeanDefinition();
                     rawBeanDefinition.getPropertyValues().addPropertyValue("serviceName",basePackage+"."+candidateComponent.getBeanClassName());
-                    String className = annotationMetadata.getClassName();
                         rawBeanDefinition.getPropertyValues().addPropertyValue("interfaceType", className);
 
                     registerBean(beanid,rawBeanDefinition,registry);

@@ -1,6 +1,5 @@
 package com.feignext.proxy;
 
-import com.feignext.demo.TestService;
 import lombok.Data;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.ApplicationContext;
@@ -23,7 +22,7 @@ public class BeanDefinitionTest implements FactoryBean<Object> {
         //从rest获取
 
 
-        return new ProxyFactory(TestService.class).getProxy();
+        return new ProxyFactory(interfaceType).getProxy();
     }
 
 
