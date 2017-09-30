@@ -29,7 +29,7 @@ public interface Client {
     Response execute(Request request, Options options) throws IOException;
 
     /**
-     * 默认实现类
+     * 默认实现类 实现java默认http 请求
      */
     public static class Default implements Client {
 
