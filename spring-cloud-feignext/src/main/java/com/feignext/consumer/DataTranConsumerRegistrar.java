@@ -67,6 +67,7 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
                     String className = annotationMetadata.getClassName();
 
                     String beanid = (String)attributes.get("beanid");
+                    String appName = (String)attributes.get("name");
                     String beanclass = beanDefinition.getBeanClassName();
                     //初始化解析配置的DataClient 接口将数据保存到map中.
 /*                    String ref  = (String)attributes.get("ref");
@@ -75,16 +76,29 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
                     //注册到spring
                     BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(BeanDefinitionTest.class);
                     AbstractBeanDefinition rawBeanDefinition = beanDefinitionBuilder.getRawBeanDefinition();
-                    rawBeanDefinition.getPropertyValues().addPropertyValue("serviceName",basePackage+"."+candidateComponent.getBeanClassName());
-                        rawBeanDefinition.getPropertyValues().addPropertyValue("interfaceType", className);
-
+                    rawBeanDefinition.getPropertyValues().addPropertyValue("appName",appName);
+                    rawBeanDefinition.getPropertyValues().addPropertyValue("interfaceName",beanclass);
+                    rawBeanDefinition.getPropertyValues().addPropertyValue("interfaceType", className);
                     registerBean(beanid,rawBeanDefinition,registry);
+
+                    registerClientConfiguration(registry, appName,
+                            attributes.get("configuration"));
+
                 }
             }
         }
     }
 
-
+    private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name,
+                                             Object configuration) {
+        BeanDefinitionBuilder builder = BeanDefinitionBuilder
+                .genericBeanDefinition(SpringClientSpecification.class);
+        builder.addConstructorArgValue(name);
+        builder.addConstructorArgValue(configuration);
+        registry.registerBeanDefinition(
+                name + "." + SpringClientSpecification.class.getSimpleName(),
+                builder.getBeanDefinition());
+    }
 
     /**
      * @desc 向spring容器注册bean

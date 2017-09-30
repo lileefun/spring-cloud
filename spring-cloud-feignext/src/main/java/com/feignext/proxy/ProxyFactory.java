@@ -17,9 +17,9 @@ public class ProxyFactory {
 
     //给目标生成对象
 
-    public Object getProxy() {
+    public Object getProxy(RpcInvoker rpcInvoker) {
 
-       return Proxy.newProxyInstance(target.getClassLoader(), new Class[]{target}, new InvokeHandler());
+       return Proxy.newProxyInstance(target.getClassLoader(), new Class[]{target}, new InvokeHandler(rpcInvoker));
     }
 
 /*    public <T> T getProxy( Class<?>[] interfaces) {

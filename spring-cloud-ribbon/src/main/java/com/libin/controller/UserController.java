@@ -28,6 +28,7 @@ public class UserController {
     @GetMapping("/simple/{id}")
     public UserDTO findUser(@PathVariable Integer id) {
         UserDTO userDTO = restTemplate.getForObject("http://appname-libin/simple/" + id, UserDTO.class);
+
         return userDTO;
     }
 

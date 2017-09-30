@@ -17,8 +17,9 @@ public class ConsumerBootStrap {
         final ClassPathXmlApplicationContext ac;
         ac = new ClassPathXmlApplicationContext("spring-dubbo-consumer.xml");
         //注册动态bean
-        addBean("testDemo", ac);
+//        addBean("testDemo", ac);
         TestService bean = ac.getBean(TestService.class);
+        //TestDemo bean1 = ac.getBean(TestDemo.class);
         System.out.println(bean.test(1));
 
 
@@ -44,6 +45,8 @@ public class ConsumerBootStrap {
         ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) context;
         BeanDefinitionRegistry beanDefinitonRegistry = (BeanDefinitionRegistry) configurableApplicationContext
                 .getBeanFactory();
+        String beanclass = beanDefinition.getBeanClassName();
+        beanDefinition.getPropertyValues().add("interfaceClass",beanclass);
         beanDefinitonRegistry.registerBeanDefinition(beanName, beanDefinition);
     }
 

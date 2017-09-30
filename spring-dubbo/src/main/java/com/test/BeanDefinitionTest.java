@@ -2,11 +2,13 @@ package com.test;
 
 import com.test.dynamicproxytest.ProxyFactory;
 import com.test.dynamicproxytest.dto.TestDemo;
+import lombok.Data;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
  * Created by libin on 2017/9/20.
  */
+@Data
 public class BeanDefinitionTest implements FactoryBean {
 
 
@@ -23,7 +25,7 @@ public class BeanDefinitionTest implements FactoryBean {
 
 
     public Class<?> getObjectType() {
-        return interfaceClass;
+        return TestDemo.class;
     }
 
     public boolean isSingleton() {

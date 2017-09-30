@@ -27,4 +27,6 @@ public @interface  DataClient {
      */
     String beanid();
 
+    Class<?>[] configuration() default {};
+
 }

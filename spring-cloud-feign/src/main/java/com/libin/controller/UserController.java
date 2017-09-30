@@ -21,4 +21,10 @@ public class UserController {
         return userFeignClient.findUser(id);
     }
 
+    @GetMapping("/feign2/{id}")
+    public UserDTO findUser2(@PathVariable Integer id){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1);
+        return userFeignClient.findObject(userDTO);
+    }
 }
