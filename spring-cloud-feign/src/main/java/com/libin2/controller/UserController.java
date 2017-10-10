@@ -1,6 +1,7 @@
 package com.libin2.controller;
 
 import com.feignext.demo.TestService;
+import com.feignext.demo.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +20,10 @@ public class UserController {
     private TestService testService;
 
     @GetMapping("/feign/{id}")
-    public Integer findUser(@PathVariable Integer id){
-        int test = testService.test(1);
+    public UserDTO findUser(@PathVariable Integer id){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(1);
+        UserDTO test = testService.simple2(userDTO);
 
         return test;
     }

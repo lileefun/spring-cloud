@@ -1,6 +1,6 @@
 package com.libin;
 
-import com.libin.model.UserDTO;
+import com.feignext.demo.UserDTO;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
