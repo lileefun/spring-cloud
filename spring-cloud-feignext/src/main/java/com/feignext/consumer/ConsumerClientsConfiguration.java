@@ -41,6 +41,12 @@ public class ConsumerClientsConfiguration {
     }
 
 
+    @Bean
+    @ConditionalOnMissingBean
+    public SpringDecoder springDecoder() {
+        return new SpringDecoder(this.messageConverters);
+    }
+
 
 
     @Autowired(required = false)

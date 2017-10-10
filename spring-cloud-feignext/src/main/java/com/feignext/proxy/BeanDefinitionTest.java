@@ -1,9 +1,6 @@
 package com.feignext.proxy;
 
-import com.feignext.consumer.Client;
-import com.feignext.consumer.ConsumerContext;
-import com.feignext.consumer.SpringEncoder;
-import com.feignext.consumer.Util;
+import com.feignext.consumer.*;
 import lombok.Data;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
@@ -36,6 +33,8 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
 
     private SpringEncoder springEncoder;
 
+    private SpringDecoder springDecoder;
+
     public Object getObject() throws Exception {
         return get();
     }
@@ -47,6 +46,10 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
         client = getOptional(bean, Client.class);
 
         springEncoder = getOptional(bean, SpringEncoder.class);
+
+        springDecoder = getOptional(bean, SpringDecoder.class);
+
+
         Map<Method, MethodHandler> methodMethodHandlerMap = methodHandlerMap(interfaceType);
         RpcInvoker rpcInvoker = new RpcInvoker(interfaceName, interfaceType, appName,methodMethodHandlerMap);
         return new ProxyFactory(interfaceType).getProxy(rpcInvoker);
@@ -72,6 +75,8 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
             methodHandler.setMethodName(method.getName());
             methodHandler.setUrl("http://"+appName);
             methodHandler.setSpringEncoder(springEncoder);
+            methodHandler.setSpringDecoder(springDecoder);
+            methodHandler.setReturnType(method.getReturnType());
             if (method.getDeclaringClass() == Object.class ||
                     (method.getModifiers() & Modifier.STATIC) != 0 ||
                     Util.isDefault(method)) {

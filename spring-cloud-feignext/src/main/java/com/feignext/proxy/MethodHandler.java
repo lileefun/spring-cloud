@@ -1,6 +1,7 @@
 package com.feignext.proxy;
 
 import com.feignext.consumer.Client;
+import com.feignext.consumer.SpringDecoder;
 import com.feignext.consumer.SpringEncoder;
 import com.feignext.consumer.loadbalance.Request;
 import com.feignext.consumer.loadbalance.Response;
@@ -31,6 +32,9 @@ public class MethodHandler {
     //对象转化器
     private SpringEncoder springEncoder;
 
+    private SpringDecoder springDecoder;
+
+
     /**
      * 方法调用
      * @param argv
@@ -49,8 +53,8 @@ public class MethodHandler {
         //TODO: 测试走第一个参数
         springEncoder.encode(argv[0],request);
         Response execute = client.execute(request, null);
-        Response.Body body = execute.body();
-        return body;
+        Object decode = springDecoder.decode(execute, returnType);
+        return decode;
     }
 
     private List converParamersObject(Object[] argv) {
