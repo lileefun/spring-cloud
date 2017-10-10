@@ -2,6 +2,7 @@ package com.feignext.proxy;
 
 import com.feignext.consumer.Client;
 import com.feignext.consumer.ConsumerContext;
+import com.feignext.consumer.SpringEncoder;
 import com.feignext.consumer.Util;
 import lombok.Data;
 import org.springframework.beans.BeansException;
@@ -24,6 +25,7 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
         ApplicationContextAware {
 
 
+
     private String interfaceName;
 
     private Class<?> interfaceType;
@@ -32,6 +34,7 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
 
     private Client client;
 
+    private SpringEncoder springEncoder;
 
     public Object getObject() throws Exception {
         return get();
@@ -43,7 +46,7 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
 
         client = getOptional(bean, Client.class);
 
-
+        springEncoder = getOptional(bean, SpringEncoder.class);
         Map<Method, MethodHandler> methodMethodHandlerMap = methodHandlerMap(interfaceType);
         RpcInvoker rpcInvoker = new RpcInvoker(interfaceName, interfaceType, appName,methodMethodHandlerMap);
         return new ProxyFactory(interfaceType).getProxy(rpcInvoker);
@@ -68,16 +71,12 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
             methodHandler.setClient(client);
             methodHandler.setMethodName(method.getName());
             methodHandler.setUrl("http://"+appName);
-
+            methodHandler.setSpringEncoder(springEncoder);
             if (method.getDeclaringClass() == Object.class ||
                     (method.getModifiers() & Modifier.STATIC) != 0 ||
                     Util.isDefault(method)) {
                 continue;
             }
-
-            //解析方法
-
-            //处理方法注解
 
             //解析方法参数
             Class<?>[] parameterTypes = method.getParameterTypes();

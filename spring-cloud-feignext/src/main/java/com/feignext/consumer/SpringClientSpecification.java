@@ -7,6 +7,7 @@ import org.springframework.cloud.context.named.NamedContextFactory;
 
 /**
  * Created by libin on 2017/9/29.
+ * 启动配置类
  */
 @Data
 @AllArgsConstructor

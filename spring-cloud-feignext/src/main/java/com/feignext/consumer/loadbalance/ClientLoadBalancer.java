@@ -75,11 +75,11 @@ public class ClientLoadBalancer extends AbstractLoadBalancerAwareClient<ClientLo
     }
 
 
-    static class RibbonRequest extends ClientRequest implements Cloneable {
+    public static class RibbonRequest extends ClientRequest implements Cloneable {
         private final Request request;
         private final Client client;
 
-        RibbonRequest(Client client, Request request, URI uri) {
+        public RibbonRequest(Client client, Request request, URI uri) {
             this.client = client;
             setUri(uri);
             this.request = toRequest(request);
@@ -88,7 +88,7 @@ public class ClientLoadBalancer extends AbstractLoadBalancerAwareClient<ClientLo
         private Request toRequest(Request request) {
             Map<String, Collection<String>> headers = new LinkedHashMap<>(
                     request.headers());
-            return Request.create(request.method(),getUri().toASCIIString(),headers,request.body(),request.charset());
+            return Request.create("",request.method(),getUri().toASCIIString(),headers,request.body(),request.charset());
         }
 
         Request toRequest() {
@@ -134,12 +134,12 @@ public class ClientLoadBalancer extends AbstractLoadBalancerAwareClient<ClientLo
 
     }
 
-    static class RibbonResponse implements IResponse {
+    public static class RibbonResponse implements IResponse {
 
         private final URI uri;
         private final Response response;
 
-        RibbonResponse(URI uri, Response response) {
+        public RibbonResponse(URI uri, Response response) {
             this.uri = uri;
             this.response = response;
         }
@@ -169,7 +169,7 @@ public class ClientLoadBalancer extends AbstractLoadBalancerAwareClient<ClientLo
             return this.response.headers();
         }
 
-        Response toResponse() {
+        public Response toResponse() {
             return this.response;
         }
 

@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.feignext.consumer.ConsumerLoadBalancerConfiguration,\
 com.feignext.consumer.ConsumerClientsConfiguration

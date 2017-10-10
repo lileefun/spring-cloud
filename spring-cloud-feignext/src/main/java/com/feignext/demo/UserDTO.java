@@ -1,4 +1,4 @@
-package com.libin.model;
+package com.feignext.demo;
 
 import lombok.Data;
 

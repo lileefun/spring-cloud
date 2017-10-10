@@ -18,19 +18,21 @@ public final class Request {
      * No parameters can be null except {@code body} and {@code charset}. All parameters must be
      * effectively immutable, via safe copies, not mutating or otherwise.
      */
-    public static Request create(String method, String url, Map<String, Collection<String>> headers,
+    public static Request create(String appName,String method, String url, Map<String, Collection<String>> headers,
                                  byte[] body, Charset charset) {
-        return new Request(method, url, headers, body, charset);
+        return new Request(appName,method, url, headers, body, charset);
     }
 
+    private final String appName;
     private final String method;
     private final String url;
-    private final Map<String, Collection<String>> headers;
-    private final byte[] body;
-    private final Charset charset;
+    private Map<String, Collection<String>> headers;
+    private byte[] body;
+    private Charset charset;
 
-    public Request(String method, String url, Map<String, Collection<String>> headers, byte[] body,
+    public Request(String appName,String method, String url, Map<String, Collection<String>> headers, byte[] body,
                    Charset charset) {
+        this.appName = appName;
         this.method = method;
         this.url = url;
         this.headers = headers;
@@ -52,12 +54,19 @@ public final class Request {
     public Map<String, Collection<String>> headers() {
         return headers;
     }
-
+    public void setHeaders(Map<String, Collection<String>> headers) {
+        this.headers = headers;
+    }
     /**
      * The character set with which the body is encoded, or null if unknown or not applicable.  When
      * this is present, you can use {@code new String(req.body(), req.charset())} to access the body
      * as a String.
      */
+
+    public void setCharset(Charset charset) {
+        this.charset = charset;
+    }
+
     public Charset charset() {
         return charset;
     }
@@ -72,6 +81,9 @@ public final class Request {
         return body;
     }
 
+    public void setBody(byte[] body) {
+        this.body = body;
+    }
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
