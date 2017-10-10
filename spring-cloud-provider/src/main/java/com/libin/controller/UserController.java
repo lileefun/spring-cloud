@@ -1,6 +1,6 @@
 package com.libin.controller;
 
-import com.libin.model.UserDTO;
+import com.feignext.demo.UserDTO;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;

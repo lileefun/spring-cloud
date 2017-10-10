@@ -19,10 +19,10 @@ public class UserController {
     @Autowired
     private TestService testService;
 
-    @GetMapping("/feign/{id}")
+    @GetMapping("/loadbalance/{id}")
     public UserDTO findUser(@PathVariable Integer id){
         UserDTO userDTO = new UserDTO();
-        userDTO.setId(1);
+        userDTO.setId(13);
         UserDTO test = testService.simple2(userDTO);
 
         return test;
