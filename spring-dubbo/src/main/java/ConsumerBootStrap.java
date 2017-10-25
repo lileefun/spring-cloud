@@ -20,6 +20,7 @@ public class ConsumerBootStrap {
 //        addBean("testDemo", ac);
         TestService bean = ac.getBean(TestService.class);
         //TestDemo bean1 = ac.getBean(TestDemo.class);
+
         System.out.println(bean.test(1));
 
 

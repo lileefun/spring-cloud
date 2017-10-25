@@ -33,16 +33,16 @@ public class SpringDecoder {
 			HttpMessageConverterExtractor<?> extractor = new HttpMessageConverterExtractor(
 					type, this.messageConverters.getObject().getConverters());
 
-			return extractor.extractData(new FeignResponseAdapter(response));
+			return extractor.extractData(new ResponseAdapter(response));
 		}
 		throw new Exception("type is not an instance of Class or ParameterizedType: " + type);
 	}
 
-	private class FeignResponseAdapter implements ClientHttpResponse {
+	private class ResponseAdapter implements ClientHttpResponse {
 
 		private final Response response;
 
-		private FeignResponseAdapter(Response response) {
+		private ResponseAdapter(Response response) {
 			this.response = response;
 		}
 

@@ -36,7 +36,7 @@ public class SpringEncoder {
                     .getObject().getConverters()) {
                 if (messageConverter.canWrite(requestType, null)) {
 
-                    FeignOutputMessage outputMessage = new FeignOutputMessage(new HttpHeaders());
+                    OutputMessage outputMessage = new OutputMessage(new HttpHeaders());
                     try {
                         @SuppressWarnings("unchecked")
                         HttpMessageConverter<Object> copy = (HttpMessageConverter<Object>) messageConverter;
@@ -77,13 +77,13 @@ public class SpringEncoder {
         return headers;
     }
 
-    private class FeignOutputMessage implements HttpOutputMessage {
+    private class OutputMessage implements HttpOutputMessage {
 
         private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         private final HttpHeaders httpHeaders;
 
-        private FeignOutputMessage(HttpHeaders httpHeaders) {
+        private OutputMessage(HttpHeaders httpHeaders) {
             this.httpHeaders = httpHeaders;
         }
 

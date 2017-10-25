@@ -1,4 +1,4 @@
-package com.libin2.contorller;
+package com.libin2.controller;
 
 import com.libin2.model.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -21,9 +21,11 @@ public class MethodHandler {
     private String methodName;
 
     private String url;
+
+    private String interfaceName;
+
     //设置负载均衡
     private Client client;
-
     //方法返回类型
     private Type returnType;
 
@@ -47,18 +49,19 @@ public class MethodHandler {
         //设置参数
 
         Map<String, Collection<String>> headers = new HashMap<>();
-        url = "http://"+appName+"/"+methodName;
+        url = "http://"+appName+"/";
         Request request = new Request(appName,"POST",url,headers,null,null);
-       // springEncoder.encode(converParamersObject(argv),request);
-        //TODO: 测试走第一个参数
-        springEncoder.encode(argv[0],request);
+        springEncoder.encode(converParamersObject(argv),request);
         Response execute = client.execute(request, null);
         Object decode = springDecoder.decode(execute, returnType);
         return decode;
     }
 
-    private List converParamersObject(Object[] argv) {
-        return Arrays.asList(argv);
+    private RpcTransport.RpcRequestTransport converParamersObject(Object[] argv) {
+        RpcTransport.RequestBuild requestBuild1 = RpcTransport.RequestBuilder()
+                .interfaceName(interfaceName).methodName(methodName).parameterTypes(parameterTypes).args(argv);
+        RpcTransport.RpcRequestTransport rpcRequestTransport = requestBuild1.build();
+        return rpcRequestTransport;
     }
 
 

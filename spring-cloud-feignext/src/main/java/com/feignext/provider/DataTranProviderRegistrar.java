@@ -1,14 +1,18 @@
-package com.feignext.consumer;
+package com.feignext.provider;
 
 import com.feignext.DataClient;
-import com.feignext.consumer.annotation.ConsumerDataTranClients;
-import com.feignext.proxy.BeanDefinitionConsumer;
+import com.feignext.provider.annotation.ProviderDataTranClients;
+import com.feignext.proxy.BeanDefinitionProvider;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
@@ -29,7 +33,7 @@ import java.util.Set;
 /**
  * Created by libin on 2017/9/22.
  */
-public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,ResourceLoaderAware,BeanClassLoaderAware,EnvironmentAware {
+public class DataTranProviderRegistrar implements ApplicationContextAware,ImportBeanDefinitionRegistrar,ResourceLoaderAware,BeanClassLoaderAware,EnvironmentAware {
 
     private ResourceLoader resourceLoader;
 
@@ -68,37 +72,41 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
 
                     String beanid = (String)attributes.get("beanid");
                     String appName = (String)attributes.get("name");
+                    String ref = (String)attributes.get("ref");
                     String beanclass = beanDefinition.getBeanClassName();
                     //初始化解析配置的DataClient 接口将数据保存到map中.
 /*                    String ref  = (String)attributes.get("ref");
                     RuntimeBeanReference reference = new RuntimeBeanReference(ref);*/
 
                     //注册到spring
-                    BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(BeanDefinitionConsumer.class);
+                    BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(BeanDefinitionProvider.class);
                     AbstractBeanDefinition rawBeanDefinition = beanDefinitionBuilder.getRawBeanDefinition();
                     rawBeanDefinition.getPropertyValues().addPropertyValue("appName",appName);
                     rawBeanDefinition.getPropertyValues().addPropertyValue("interfaceName",beanclass);
                     rawBeanDefinition.getPropertyValues().addPropertyValue("interfaceType", className);
+
+                    //检测ref
+
+                    if (ref!=null && registry.containsBeanDefinition(ref)) {
+                        BeanDefinition refBean = registry.getBeanDefinition(ref);
+                        if (!refBean.isSingleton()) {
+                            throw new IllegalStateException("The exported service ref scope=\"singleton\" ...>");
+                        }
+                    }
+                    Object reference = new RuntimeBeanReference(ref);
+                    rawBeanDefinition.getPropertyValues().addPropertyValue("ref", reference);
+
                     registerBean(beanid,rawBeanDefinition,registry);
 
-                    registerClientConfiguration(registry, appName,
-                            attributes.get("configuration"));
+
+
+
 
                 }
             }
         }
     }
 
-    private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name,
-                                             Object configuration) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder
-                .genericBeanDefinition(SpringClientSpecification.class);
-        builder.addConstructorArgValue(name);
-        builder.addConstructorArgValue(configuration);
-        registry.registerBeanDefinition(
-                name + "." + SpringClientSpecification.class.getSimpleName(),
-                builder.getBeanDefinition());
-    }
 
     /**
      * @desc 向spring容器注册bean
@@ -128,7 +136,7 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
 
     protected Set<String> getBasePackages(AnnotationMetadata importingClassMetadata) {
         Map<String, Object> attributes = importingClassMetadata
-                .getAnnotationAttributes(ConsumerDataTranClients.class.getCanonicalName());
+                .getAnnotationAttributes(ProviderDataTranClients.class.getCanonicalName());
 
         Set<String> basePackages = new HashSet<>();
         for (String pkg : (String[]) attributes.get("value")) {
@@ -167,7 +175,7 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
                         try {
                             Class<?> target = ClassUtils.forName(
                                     beanDefinition.getMetadata().getClassName(),
-                                    DataTranConsumerRegistrar.this.classLoader);
+                                    DataTranProviderRegistrar.this.classLoader);
                             return !target.isAnnotation();
                         }
                         catch (Exception ex) {
@@ -186,4 +194,10 @@ public class DataTranConsumerRegistrar implements ImportBeanDefinitionRegistrar,
         };
     }
 
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 }

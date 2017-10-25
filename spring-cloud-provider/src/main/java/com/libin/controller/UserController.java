@@ -1,6 +1,7 @@
 package com.libin.controller;
 
 import com.feignext.demo.UserDTO;
+import com.feignext.proxy.RpcTransport;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +30,14 @@ public class UserController {
     }
 
     @PostMapping("/simple2")
-    public UserDTO findObject(@RequestBody UserDTO userDTO) {
-        System.out.println(userDTO);
+    public UserDTO findObject(@RequestBody RpcTransport.RpcRequestTransport rpcRequestTransport) {
+        System.out.println(rpcRequestTransport);
+        UserDTO userDTO = new UserDTO();
         userDTO.setId(userDTO.getId()+1);
         userDTO.setUserName("test1");
+
+        //返回扫描结果
+
         return userDTO;
     }
 

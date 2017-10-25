@@ -18,10 +18,10 @@ import java.util.Map;
  * Created by libin on 2017/9/20.
  */
 @Data
-public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean,
+public class BeanDefinitionConsumer implements FactoryBean<Object>, InitializingBean,
         ApplicationContextAware {
 
-
+    private String packageName;
 
     private String interfaceName;
 
@@ -70,6 +70,7 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
         Method[] methods = interfaceType.getMethods();
         for (Method method : methods) {
             MethodHandler methodHandler = new MethodHandler();
+            methodHandler.setInterfaceName(interfaceName);
             methodHandler.setAppName(appName);
             methodHandler.setClient(client);
             methodHandler.setMethodName(method.getName());
@@ -89,7 +90,7 @@ public class BeanDefinitionTest implements FactoryBean<Object>, InitializingBean
             Annotation[][] parameterAnnotations = method.getParameterAnnotations();
             int count = parameterAnnotations.length;
 
-
+            methodHandler.setParameterTypes(parameterTypes);
            /* MethodMetadata metadata = parseAndValidateMetadata(interfaceType, method);
             checkState(!result.containsKey(metadata.configKey()), "Overrides unsupported: %s",
                     metadata.configKey());

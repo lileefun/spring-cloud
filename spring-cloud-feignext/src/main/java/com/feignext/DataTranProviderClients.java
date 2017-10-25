@@ -1,5 +1,6 @@
 package com.feignext;
 
+import com.feignext.provider.DataTranProviderRegistrar;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -10,10 +11,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import(DataTranRegistrar.class)
-public @interface DataTranClients {
-
-    boolean provider() default false;
+@Import(DataTranProviderRegistrar.class)
+public @interface DataTranProviderClients {
 
     String[] value() default {};
 

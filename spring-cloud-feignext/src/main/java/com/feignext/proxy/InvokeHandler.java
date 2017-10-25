@@ -14,6 +14,9 @@ public class InvokeHandler implements InvocationHandler {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (method.getName().toLowerCase().equals("tostring")) {
+            return rpcInvoker.toString();
+        }
         System.out.println("执行远程RPC 调用 返回详细内容");
         Map<Method, MethodHandler> methodHandlerMap = rpcInvoker.getMethodHandlerMap();
         MethodHandler methodHandler = methodHandlerMap.get(method);
