@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <resourceExtensions />
-    <wildcardResourcePatterns>
-      <entry name="!?*.java" />
-      <entry name="!?*.form" />
-      <entry name="!?*.class" />
-      <entry name="!?*.groovy" />
-      <entry name="!?*.scala" />
-      <entry name="!?*.flex" />
-      <entry name="!?*.kt" />
-      <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
-    </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true">
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="spring-boot-web" />
         <module name="spring-cloud-consumer" />
         <module name="spring-cloud-eureka" />
@@ -31,13 +16,23 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="spring-boot-web" target="1.8" />
-      <module name="spring-cloud" target="1.8" />
-      <module name="spring-cloud-consumer" target="1.8" />
-      <module name="spring-cloud-eureka" target="1.8" />
-      <module name="spring-cloud-feign" target="1.8" />
-      <module name="spring-cloud-provider" target="1.8" />
-      <module name="spring-cloud-ribbon" target="1.8" />
+      <module name="spring-boot-web" target="1.5" />
+      <module name="spring-cloud" target="1.5" />
+      <module name="spring-cloud-consumer" target="1.5" />
+      <module name="spring-cloud-eureka" target="1.5" />
+      <module name="spring-cloud-feign" target="1.5" />
+      <module name="spring-cloud-provider" target="1.5" />
+      <module name="spring-cloud-ribbon" target="1.5" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-boot-web" options="" />
+      <module name="spring-cloud-consumer" options="" />
+      <module name="spring-cloud-eureka" options="" />
+      <module name="spring-cloud-feign" options="" />
+      <module name="spring-cloud-provider" options="" />
+      <module name="spring-cloud-ribbon" options="" />
+    </option>
   </component>
 </project>

@@ -19,8 +19,8 @@ public class UserController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @Autowired
-    private EurekaClient eurekaClient;
+ /*   @Autowired
+    private EurekaClient eurekaClient;*/
 
     @GetMapping("/simple/{id}")
     public UserDTO findUser(@PathVariable Integer id) {
@@ -30,15 +30,15 @@ public class UserController {
         return userDTO;
     }
 
-    @GetMapping("/eureka-instance")
+ /*   @GetMapping("/eureka-instance")
     public String serviceUrl() {
         InstanceInfo instance = eurekaClient.getNextServerFromEureka("APPNAME-LIBIN", false);
         return instance.getHomePageUrl();
-    }
+    }*/
 
-    @GetMapping("/eureka-info")
+   /* @GetMapping("/eureka-info")
     public ServiceInstance info() {
         ServiceInstance localServiceInstance = discoveryClient.getLocalServiceInstance();
         return localServiceInstance;
-    }
+    }*/
 }
